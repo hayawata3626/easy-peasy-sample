@@ -1,18 +1,15 @@
-import React, { Component } from "react";
-import "./App.css";
-import { StoreProvider, createStore } from "easy-peasy";
+import React, { useEffect } from "react";
+import { useAction } from "easy-peasy";
 import TodoList from "./components/TodoList";
-import { model } from "./index";
 
-const store = createStore(model);
+const App = () => {
+	const initialise = useAction(actions => actions.initialise);
+	useEffect(() => {
+		initialise()
+	});
+	return (
+		<TodoList />
+	);
+};
 
-class App extends Component {
-	render() {
-		return (
-			<StoreProvider store={store}>
-				<TodoList />
-			</StoreProvider>
-		);
-	}
-}
-export default App;
+export default App

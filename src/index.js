@@ -1,46 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { createStore, effect } from "easy-peasy";
-import mockService from "./mock-service";
+import { createStore, StoreProvider } from "easy-peasy";
 
-export const model = createStore({
-	todos: {
-		items: [],
-		saveTodo: effect(async (dispatch, payload, getState) => {
-			console.log(mockService);
-			const saved = await mockService.saveTodo(payload);
-			console.log(getState());
-			dispatch.todos.todoSaved(saved);
-		}),
-		addTodo: (state, payload) => {
-			state.items.push(payload);
-		},
-		todoSaved: (state, payload) => {
-			state.items.push(payload);
-		}
-	}
-});
+import model from "./model";
+import App from "./App";
 
-// store.dispatch.todos.saveTodo("Install easy-peasy").then(() => {
-// 	mockService.fetchTodos();
-// });
+const store = createStore(model);
 
-// console.log(store.getState());
-mockService.fetchTodos().then(values => {
-	// console.log(store.todos);
-	// store.todos.items = values.map(todo => {
-	// 	return todo;
-	// });
-	values.forEach(element => {
-		model.getState().todos.items.push(element);
-	});
-	// store.todos.push(value);
-});
-console.log(model.getState().todos.items);
+function Root() {
+	return (
+		<StoreProvider store={store}>
+			<App />
+		</StoreProvider>
+	)
+}
 
-ReactDOM.render(<App />, document.getElementById("root"));
-
+ReactDOM.render(<Root/>, document.getElementById("root"));
 serviceWorker.unregister();
