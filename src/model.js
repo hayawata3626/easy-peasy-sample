@@ -1,32 +1,33 @@
-import { effect } from 'easy-peasy'
-import mockService from './mock-service'
+import { effect } from "easy-peasy";
+import axios from "axios";
+import _ from "lodash";
 
 export default {
-  todos: {
-    // items: mockService.fetchTodos(),
-    items: {},
-    // actions
-    fetched: (state, payload) => {
-      state.items = payload.reduce((acc, todo) => {
-        acc[todo.id] = todo;
-        return acc
-      }, {})
-    },
-    saved: (state, payload) => {
-      state.items[payload.id] = payload
-    },
-    // effects
-    fetchTodos: effect(async dispatch => {
-      const todos = await mockService.fetchTodos()
-      dispatch.todos.fetched(todos)
-    }),
-    save: effect(async (dispatch, payload) => {
-      const todo = await mockService.saveTodo(payload)
-      dispatch.todos.saved(todo)
-    }),
+  items: [],
+  error: false,
+  loading: false,
+  httpError: false,
+  // actions
+  search: (state, payload) => {
+    state.items = [];
+    if (!payload.data.items.length) return;
+    state.items = _.concat(state.items, payload.data.items);
   },
   // effects
-  initialise: effect(async dispatch => {
-    await dispatch.todos.fetchTodos()
+  fetched: effect(async (dispatch, payload) => {
+    const SEARCH = "https://api.github.com/search/repositories";
+    try {
+      dispatch.isProgress(true);
+      const result = await axios.get(
+        `${SEARCH}?q=${payload}+in:name&sort=stars`
+      );
+      dispatch.isProgress(false);
+      dispatch.search(result);
+    } catch (err) {
+      dispatch.isProgress(false);
+    }
   }),
-}
+  isProgress: (state, payload) => {
+    state.loading = payload;
+  }
+};

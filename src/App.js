@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { useAction } from "easy-peasy";
-import TodoList from "./components/TodoList";
+import React from "react";
+import { useStore } from "easy-peasy";
+import Result from "./components/Result";
+import Search from "./components/Search";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const App = () => {
-	const initialise = useAction(actions => actions.initialise);
-	useEffect(() => {
-		initialise()
-	});
-	return (
-		<TodoList />
-	);
-};
-
-export default App
+export default function App() {
+  const loading = useStore(state => state.loading);
+  return (
+    <div>
+      <Search />
+      {loading ? <CircularProgress /> : <Result />}
+    </div>
+  );
+}
