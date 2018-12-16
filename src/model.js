@@ -7,12 +7,17 @@ export default {
   error: false,
   loading: false,
   httpError: false,
+
   // actions
   search: (state, payload) => {
     state.items = [];
     if (!payload.data.items.length) return;
     state.items = _.concat(state.items, payload.data.items);
   },
+  isProgress: (state, payload) => {
+    state.loading = payload;
+  },
+
   // effects
   fetched: effect(async (dispatch, payload) => {
     const SEARCH = "https://api.github.com/search/repositories";
@@ -26,8 +31,5 @@ export default {
     } catch (err) {
       dispatch.isProgress(false);
     }
-  }),
-  isProgress: (state, payload) => {
-    state.loading = payload;
-  }
+  })
 };

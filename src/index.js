@@ -5,15 +5,16 @@ import { createStore, StoreProvider } from "easy-peasy";
 
 import model from "./model";
 import App from "./App";
+import "./index.css"
 
 const store = createStore(model);
 function Root() {
-	return (
-		<StoreProvider store={store}>
-			<App />
-		</StoreProvider>
-	)
+  return (
+    <StoreProvider store={store}>
+      <App />
+    </StoreProvider>
+  );
 }
 
-ReactDOM.render(<Root/>, document.getElementById("root"));
+ReactDOM.render(<Root />, document.getElementById("root"));
 serviceWorker.unregister();
