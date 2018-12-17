@@ -18,11 +18,10 @@ export default {
 
   // effects
   fetched: effect(async (dispatch, payload) => {
-    const SEARCH = "https://api.github.com/search/repositories";
     try {
       dispatch.isProgress(true);
       const result = await axios.get(
-        `${SEARCH}?q=${payload}+in:name&sort=stars`
+        `https://api.github.com/search/repositories?q=${payload}+in:name&sort=stars`
       );
       dispatch.isProgress(false);
       dispatch.search(result);
