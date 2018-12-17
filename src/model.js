@@ -4,9 +4,7 @@ import _ from "lodash";
 
 export default {
   items: [],
-  error: false,
   loading: false,
-  httpError: false,
 
   // actions
   search: (state, payload) => {

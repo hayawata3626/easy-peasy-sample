@@ -1,27 +1,54 @@
-import React from 'react'
+import React from "react";
 import Card from "@material-ui/core/es/Card/Card";
-import styled from '@emotion/styled'
-import ListItem from '@material-ui/core/ListItem';
+import styled from "@emotion/styled";
+import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/es/Typography/Typography";
 
-const CardContens = styled(Card)`
-  &:first-child {
-  margin-top: 30px;
-  }
-  margin-bottom: 20px;
+const CardContents = styled(Card)`
+  max-width: 800px;
+  margin: 20px auto;
   padding: 10px;
 `;
 
-export default function Item({ todo: { html_url, full_name, description, stargazers_count, forks_count, watchers_count } }) {
+const RepositoryTitle = styled(ListItem)`
+  && {
+    padding: 0;
+  }
+`;
+
+const CardDetail = styled("div")`
+  display: flex;
+`;
+
+export default function Item({
+  todo: {
+    html_url,
+    full_name,
+    description,
+    stargazers_count,
+    forks_count,
+    watchers_count
+  }
+}) {
   return (
     <div>
-      <CardContens>
-        <ListItem component={"a"} href={html_url}>{full_name}</ListItem>
+      <CardContents>
+        <RepositoryTitle component={"a"} href={html_url}>
+          {full_name}
+        </RepositoryTitle>
         <Typography>{description}</Typography>
-        <Typography>star:{stargazers_count}</Typography>
-        <Typography>fork:{forks_count}</Typography>
-        <Typography>watch:{watchers_count}</Typography>
-      </CardContens>
+        <CardDetail>
+          <Typography>
+            <span>🌟</span>: {stargazers_count}
+          </Typography>
+          <Typography>
+            <span>🍴</span> {forks_count}
+          </Typography>
+          <Typography>
+            <span>👀</span> {watchers_count}
+          </Typography>
+        </CardDetail>
+      </CardContents>
     </div>
-  )
+  );
 }

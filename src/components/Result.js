@@ -3,7 +3,7 @@ import { useStore } from "easy-peasy";
 import Item from "./Item";
 import Typography from "@material-ui/core/es/Typography/Typography";
 
-function Result() {
+export default function Result() {
   const items = useStore(state => state.items);
   return (
     <>
@@ -15,5 +15,3 @@ function Result() {
     </>
   );
 }
-
-export default Result;
